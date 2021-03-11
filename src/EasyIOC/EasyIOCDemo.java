@@ -1,38 +1,16 @@
-# SpringStudy
-关于Spring IOC/AOP的学习心得以及简单的仿写
+package EasyIOC;
 
-## 背景：
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
-由于本人是某大学网络中心java组组长，在和学弟学妹们传授完spring的相关知识之后，看到一脸茫然的他们，仿佛看到自己大一的时候，所以为了帮助学弟学妹更好的了解IOC 以及 AOP 两大原理，并且帮助自己更加深层次的学习spring,决定自己简单的仿写这两个功能。
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.FileInputStream;
+import java.lang.reflect.Field;
+import java.util.HashMap;
 
-## 一 ：实现简单的IOC  2021年3月11日16:01:28
-
-回顾做过的项目，记得spring一个比较基础并且重要的功能就是读取xml文件，并且将的得到数据装配成bean，并且方法IOC容器当中储存管理。
-
-由于大学选修课程当中有xml应用编程，所以我对xml文件的读取以及增删改查还是比较了解的，还没有学过的同学可以先去简单了解一下。
-
-### 主要步骤：
-
-1. 加载 xml 文件，获取其中的数据
-2. 将得到的数据(class)创建成 JavaBean
-3. 将Bean注册到IOC容器当中
-
-### 开始实现吧
-
-先编写一个IOC容器类：
-
-1. 主要功能有读取xml文件
-2. 获取bean的全路径名，通过反射Class.forName（全路径名）获取到bean的class对象
-3. 通过class对象（有类的所有信息），实例化bean
-4. 利用反射将bean的相关字段的访问权限设置为可访问
-5. 然后将读取到的属性填入到bean对象实例当中
-6. 最后将单例的bean对象注册到bean容器当中
-
-### 代码实现（所有的代码在EasyIOC包下）
-
-#### IOC类编写
-
-```java
 /**
  * @description: IOC容器类
  * @author: 吴强
@@ -147,96 +125,3 @@ public class EasyIOCDemo {
         beanMap.put(id, bean);
     }
 }
-```
-
-#### 两个Bean类Student & Teacher
-
-```java
-package EasyIOC.entity;
-/**
- * @description: Teacher的bean
- * @author: 吴强
- * @date: 2021/3/11 16:52
-**/
-public class Teacher {
-    //名字
-    private String name;
-    //性别
-    private String sex;
-    //体重
-    private String width;
-    ...
-}
-```
-
-```java
-package EasyIOC.entity;
-/**
- * @description: Student 的Bean
- * @author: 吴强
- * @date: 2021/3/11 16:51
-**/
-public class Student {
-    //名字
-    private String name;
-    //性别
-    private String sex;
-    //身高
-    private String height;
-    ...
-}
-```
-
-#### ioc.xml
-
-```xml
-<beans>
-    <bean id="Student" class="EasyIOC.entity.Student">
-        <property name="name" value="xiaowu" />
-        <property name="sex" value="man" />
-        <property name="height" value="175" />
-    </bean>
-
-    <bean id="Teacher" class="EasyIOC.entity.Teacher">
-        <property name="name" value="hongtao"/>
-        <property name="sex" value="man"/>
-        <property name="width" value="65"/>
-    </bean>
-</beans>
-```
-
-#### 单元测试类
-
-```java
-/**
- * @description: 单元测试getBean方法
- * @author: 吴强
- * @date: 2021/3/11 17:01
-**/
-public class EasyIOCTest {
-    @Test
-    public void getBean() throws Exception {
-        //获取xml文件的URL
-        String Url = EasyIOCDemo.class.getClassLoader().getResource("EasyIOC/ioc.xml").getFile();
-
-        System.out.println(Url);
-
-        EasyIOCDemo IOC = new EasyIOCDemo(Url);
-        Student student = (Student) IOC.getBean("Student");
-        System.out.println(student);
-        Teacher teacher = (Teacher) IOC.getBean("Teacher");
-        System.out.println(teacher);
-    }
-}
-```
-
-#### 最终结果
-
-![image-20210311173641552](C:\Users\吴强\AppData\Roaming\Typora\typora-user-images\image-20210311173641552.png)
-
-#### 小结
-
-​	开心！！！ 花了一天的时间，成功实现简单的ioc容器，虽然很简单，但是其实这是一次难忘的学习历程，从看源码，然后脑补基本原理图，再到spring官网查看相关信息，再去论坛社区搜集相关文章，最终独立实现一个简单ioc容器，并且复习了一遍反射。
-
-​	OMG！！！我居然做到了这个之前想象就头皮发麻的仿写，并且可以就这这个小Demo去给学弟学妹上上课啦！
-

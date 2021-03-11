@@ -1,0 +1,13 @@
+<beans>
+    <bean id="Student" class="EasyIOC.entity.Student">
+        <property name="name" value="xiaowu" />
+        <property name="sex" value="man" />
+        <property name="height" value="175" />
+    </bean>
+
+    <bean id="Teacher" class="EasyIOC.entity.Teacher">
+        <property name="name" value="hongtao"/>
+        <property name="sex" value="man"/>
+        <property name="width" value="65"/>
+    </bean>
+</beans>
