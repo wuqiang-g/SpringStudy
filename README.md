@@ -232,7 +232,7 @@ public class EasyIOCTest {
 
 #### 最终结果
 
-![image-20210311173641552](C:\Users\吴强\AppData\Roaming\Typora\typora-user-images\image-20210311173641552.png)
+![image-20210311194835633](https://raw.githubusercontent.com/wuqiang-g/picture/main/img/20210311194835.png)
 
 #### 小结
 
